@@ -1,13 +1,15 @@
-name: Trigger Jenkins on Directory Change
+name: Trigger Jenkins
 
 on:
   push:
     paths:
-      - 'CI-Python-App-main/**'
+      - 'CI-Python-App-main/**'  # only trigger if this folder changes
+      - '.github/workflows/**'
 
 jobs:
-  trigger:
+  trigger-jenkins:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify Jenkins
-        run: echo "Directory changed. Will trigger Jenkins here."
+      - name: Trigger Jenkins Job
+        run: |
+          curl -X POST "http://167.172.130.206:8080/job/SRE%20Mine/build?token=${{ secrets.JENKINS_TRIGGER_TOKEN }}"
