@@ -8,5 +8,6 @@ output "droplet_ip" {
 
 output "db_uri" {
   value = digitalocean_database_cluster.db.uri
+  sensitive = true
 }
 
