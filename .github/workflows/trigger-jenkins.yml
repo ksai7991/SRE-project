@@ -12,4 +12,4 @@ jobs:
     steps:
       - name: Trigger Jenkins Job
         run: |
-          curl -X POST "http://167.172.130.206:8080/job/SRE%20Mine/build?token=${{ secrets.JENKINS_TRIGGER_TOKEN }}"
+          curl -X POST -u "krishna:${{ secrets.JENKINS_TRIGGER_TOKEN }}" http://167.172.130.206:8080/job/SRE%20Mine/build
