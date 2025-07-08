@@ -8,9 +8,6 @@ spec:
   selector:
     matchLabels:
       app: python-app
-  namespaceSelector:
-    matchNames:
-      - sre  # or your app's namespace
   endpoints:
   - port: http
     path: /metrics
