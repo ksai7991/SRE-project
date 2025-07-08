@@ -3,12 +3,15 @@ kind: ServiceMonitor
 metadata:
   name: python-app-monitor
   labels:
-    release: monitoring  # Make sure this matches your Prometheus release name
+    release: monitoring
 spec:
   selector:
     matchLabels:
       app: python-app
+  namespaceSelector:
+    matchNames:
+      - sre   # 👈 Add this to target services in 'sre' namespace
   endpoints:
-  - port: http
-    path: /metrics
-    interval: 15s
+    - port: http
+      path: /metrics
+      interval: 15s
