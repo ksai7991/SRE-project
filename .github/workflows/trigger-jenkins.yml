@@ -1,0 +1,13 @@
+name: Trigger Jenkins on Directory Change
+
+on:
+  push:
+    paths:
+      - 'CI-Python-App-main/**'
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Jenkins
+        run: echo "Directory changed. Will trigger Jenkins here."
