@@ -7,7 +7,8 @@ metadata:
     prometheus.io/scrape: "true"
 spec:
   selector:
-    app: python-app
+    matchLabels:
+      app: python-app
   ports:
     - protocol: TCP
       name: http
