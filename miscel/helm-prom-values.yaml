@@ -1,5 +1,10 @@
 prometheus:
   prometheusSpec:
+    serviceMonitorSelector: 
+      matchLabels:
+        release: prometheus
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorNamespaceSelector: {}  # Optional: detects monitors from all namespaces
     additionalScrapeConfigs:
       - job_name: 'postgres-exporter-droplet'
         metrics_path: /metrics
