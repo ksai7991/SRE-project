@@ -32,7 +32,6 @@ This project demonstrates a CI/CD pipeline and observability workflow built arou
 ├── CD-Python-App-main               # Kubernetes manifests
 │   ├── application.yaml
 │   ├── deployment.yaml
-│   ├── postgres-deployment.yaml
 │   ├── service.yaml
 │   └── service_monitor.yaml         # Prometheus ServiceMonitor
 │
