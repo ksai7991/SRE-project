@@ -1,0 +1,66 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'krishnaregistry/newpythonapp1'
+        IMAGE_TAG = "${BUILD_NUMBER}"
+        REGISTRY_CREDENTIAL = 'docker-hub-credentials'
+    }
+
+    stages {
+stage('Checkout Repo') {
+    steps {
+        git branch: 'main', url: 'https://github.com/ksai7991/SRE-project.git'
+    }
+}
+
+stage('Docker Login and Build') {
+    steps {
+        script {
+            dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}", "CI-Python-App-main")
+        }
+    }
+}
+        stage('Pushing Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.digitalocean.com/', REGISTRY_CREDENTIAL) {
+                        dockerImage.push("${IMAGE_TAG}")
+                    }
+                }
+            }
+        }
+
+        stage('Update Deployment and Push to GitHub') {
+            steps {
+                withCredentials([string(credentialsId: 'Githubtoken', variable: 'GITHUB_TOKEN')]) {
+                    sh '''
+                        set -e
+
+                        git config --global user.name "krishna"
+                        git config --global user.email "ksai7991@gmail.com"
+
+                        # Clean previous clone if exists
+                        rm -rf SRE-project || true
+
+                        # Clone the SRE-project repo into CD-Python-App-main directory
+                        git clone https://$GITHUB_TOKEN@github.com/ksai7991/SRE-project.git
+                        pwd
+                        ls -al
+                        cd SRE-project/CD-Python-App-main
+                        
+
+                        # Update the image in deployment.yaml
+                        yq e '.spec.template.spec.containers[].image = "registry.digitalocean.com/krishnaregistry/newpythonapp1:'"$BUILD_NUMBER"'"' -i deployment.yaml
+
+                        git add deployment.yaml
+                        git diff --cached --quiet && echo "No changes to commit" || git commit -m "Update image to build ${BUILD_NUMBER}"
+
+                        git push origin main
+                    '''
+                }
+            }
+        }
+    }
+}
+
