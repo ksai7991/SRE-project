@@ -2,16 +2,18 @@ apiVersion: v1
 kind: Service
 metadata:
   name: python-app-service
+  namespace: default  # <-- Add this if not set elsewhere
+  labels:
+    app: python-app   # <-- Add this to match ServiceMonitor
   annotations:
     prometheus.io/port: "http"
     prometheus.io/scrape: "true"
 spec:
   selector:
-    matchLabels:
-      app: python-app
+    app: python-app    # <-- Must match pod label (NOT matchLabels)
   ports:
     - protocol: TCP
-      name: http
-      port: 80  # Internal Kubernetes port
-      targetPort: 8000 # Port exposed by the container
+      name: http       # <-- Required for Prometheus to match
+      port: 80         # Kubernetes service port
+      targetPort: 8000 # Pod's container port
   type: NodePort
