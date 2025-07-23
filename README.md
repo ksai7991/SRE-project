@@ -22,7 +22,7 @@ This project demonstrates a CI/CD pipeline and observability workflow built arou
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 .
@@ -53,7 +53,7 @@ This project demonstrates a CI/CD pipeline and observability workflow built arou
 
 ---
 
-## 🔁 CI/CD Workflow
+##  CI/CD Workflow
 
 1. **GitHub Actions** triggers on new commits and invokes a Jenkins pipeline.
 2. **Jenkins**:
@@ -76,23 +76,12 @@ This project demonstrates a CI/CD pipeline and observability workflow built arou
 
 ---
 
-## 🔍 Observability and Alerting
+## Observability and Alerting
 
 * **Prometheus Operator** is installed via Helm (`helm-prom-values.yaml`)
 * Custom `service_monitor.yaml` is used to expose application metrics
 * Application specific dashboards are configured in Grafana using `my-grafana-dashboard.json`
 * **Alerts** are defined in Grafana and used external webhook for notifications
 
----
-
-## SRE Practices
-
-* ✅ Declarative deployments via GitOps (ArgoCD)
-* ✅ Reproducible infra via Terraform
-* ✅ Immutable containers via Docker
-* ✅ Orchestrated runtime with Kubernetes
-* ✅ Continuous Integration using Jenkins
-* ✅ Observability with Prometheus and Grafana
-* ✅ Alerting for Error Rates via webhooks
 
 ---
